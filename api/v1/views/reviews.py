@@ -9,7 +9,8 @@ from flask import jsonify, abort, request
 from models import storage
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
+                 strict_slashes=False)
 def get_review_by_place(place_id=None):
     """Retrieves the list of all Review objects from a determinated Place
 
@@ -44,11 +45,12 @@ def get_review_by_id(review_id=None):
             raise a 404 error or a list with the Review, with response 200
     """
 
-    review = storage.get(Review, review_id) 
+    review = storage.get(Review, review_id)
     return review.to_dict() if review else abort(404)
 
 
-@app_views.route('/reviews/<review_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_review(review_id=None):
     """Deletes a Review object
 
@@ -71,7 +73,8 @@ def delete_review(review_id=None):
         return abort(400)
 
 
-@app_views.route('/api/v1/places/<place_id>/reviews', methods=['POST'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def save_review(place_id=None):
     """[Creates a Review]
 
@@ -97,11 +100,11 @@ def save_review(place_id=None):
         return jsonify(error='Not a JSON'), 400
     if "user_id" not in body.keys():
         return jsonify(error="Missing user_id"), 404
-    
+
     user = storage.get(User, body["user_id"])
     if not user:
         abort(404)
-    
+
     if "text" not in body.keys():
         return jsonify(error="Missing text"), 404
 
@@ -123,7 +126,7 @@ def put_review(review_id=None):
             raise a 404 error
             If the HTTP request body is not valid JSON,
             raise a 400 error with the message Not a JSON
-            If everything is right 
+            If everything is right
             returns the Review object with the status code 200
     """
 
@@ -134,7 +137,8 @@ def put_review(review_id=None):
     elif not request.is_json:
         return jsonify(error='Not a JSON'), 400
     for k, v in body.items():
-        if k in ['id', 'user_id', 'place_id', 'updated_at', 'updated_at', 'state_id']:
+        if k in ['id', 'user_id', 'place_id', 'updated_at', 'updated_at',
+                 'state_id']:
             continue
         setattr(review, k, v)
     review.save()

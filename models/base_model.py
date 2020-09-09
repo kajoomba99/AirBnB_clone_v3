@@ -73,18 +73,3 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
-    
-    ''' @staticmethod
-    def get_date(cls, cls_id):
-        
-
-        list_ = []
-        objects = storage.all(cls)
-        if cls_id:
-            amenity = storage.get(cls, cls_id)
-        for amenity in amenities.values():
-            list_.append(amenity.to_dict())
-        amenity = storage.get(Amenity, amenity_id)
-        if amenity:
-        return jsonify(amenity.to_dict()), 200
-        abort(404) '''

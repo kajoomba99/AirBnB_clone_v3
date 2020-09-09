@@ -95,7 +95,7 @@ def put_user(user_id=None):
             raise a 404 error
             If the HTTP request body is not valid JSON,
             raise a 400 error with the message Not a JSON
-            If everything is right 
+            If everything is right
             returns the Amenity object with the status code 200
     """
 

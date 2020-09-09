@@ -30,7 +30,8 @@ def get_states(state_id=None):
         return jsonify(list_), 200
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state(state_id=None):
     """Deletes a State object
 
@@ -87,7 +88,7 @@ def put_state(state_id=None):
             raise a 404 error
             If the HTTP request body is not valid JSON,
             raise a 400 error with the message Not a JSON
-            If everything is right 
+            If everything is right
             returns the Amenity object with the status code 200
     """
     body = request.get_json()

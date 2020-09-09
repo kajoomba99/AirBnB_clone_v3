@@ -79,7 +79,13 @@ class FileStorage:
         Returns:
             object: or None if not found
         """
-        return self.__objects.get(f"{cls.__name__}.{id}", None)
+        CLASS = classes[cls.__name__]
+        if CLASS is None:
+            return None
+        for value in self.all(CLASS).values():
+            if value.id == id:
+                return value
+        return None
 
     def count(self, cls=None):
         """Count the number of objects in storage:
@@ -90,11 +96,10 @@ class FileStorage:
         Returns:
             int: number of objects found in storage
         """
-
-        count = 0
         if cls is None:
-            count = len(list(self.__objects.keys()))
+            return len(self.all())
         else:
-            count = len([value for value in self.__objects.values()
-                         if value.__class__ == cls])
-        return count
+            CLASS = classes[cls.__name__]
+            if CLASS is None:
+                return len(self.all())
+        return len(self.all(CLASS))

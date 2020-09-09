@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """This module defines the index"""
 
-from . import app_views
+from api.v1.views import app_views
 from flask import jsonify
 from models.amenity import Amenity
 from models.state import State

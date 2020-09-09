@@ -21,7 +21,7 @@ CLASSES = {
 }
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def status():
     """
     Method that returns a Json with an Ok status
@@ -30,7 +30,7 @@ def status():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def stats():
     """
     Method that retrieves the number of each objects by type

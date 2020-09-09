@@ -27,7 +27,7 @@ def status():
     Method that returns a Json with an Ok status
     """
 
-    return jsonify({'Status': 'OK'})
+    return jsonify({'status': 'OK'})
 
 
 @app_views.route('/stats')

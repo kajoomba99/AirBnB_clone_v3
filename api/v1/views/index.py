@@ -33,6 +33,7 @@ def status():
 @app_views.route('/stats')
 def stats():
     """
+    Method that retrieves the number of each objects by type
     """
 
     stats = {}

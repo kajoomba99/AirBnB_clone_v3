@@ -68,7 +68,7 @@ def delete_city(city_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        abort(404)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -98,7 +98,7 @@ def save_city(state_id=None):
             city.save()
             return jsonify(city.to_dict()), 201
         else:
-            return jsonify(error="Missing name"), 404
+            return jsonify(error="Missing name"), 400
     return jsonify(error='Not a JSON'), 400
 
 

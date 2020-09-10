@@ -70,7 +70,7 @@ def delete_review(review_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        abort(404)
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
@@ -99,14 +99,14 @@ def save_review(place_id=None):
     if not request.is_json:
         return jsonify(error='Not a JSON'), 400
     if "user_id" not in body.keys():
-        return jsonify(error="Missing user_id"), 404
+        return jsonify(error="Missing user_id"), 400
 
     user = storage.get(User, body["user_id"])
     if not user:
         abort(404)
 
     if "text" not in body.keys():
-        return jsonify(error="Missing text"), 404
+        return jsonify(error="Missing text"), 400
 
     review = Review(place_id=place_id, **body)
     review.save()

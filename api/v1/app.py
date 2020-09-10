@@ -6,7 +6,7 @@ from api.v1.views import app_views
 from flask_cors import CORS
 import os
 
-port = os.environ.get('HBNB_API_PORT', '5000')
+port = os.environ.get('HBNB_API_PORT', 5000)
 host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
 
 app = Flask(__name__)

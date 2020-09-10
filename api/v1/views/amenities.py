@@ -55,7 +55,7 @@ def delete_amenity(amenity_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        return abort(404)
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -77,7 +77,7 @@ def save_amenity():
             amenity.save()
             return jsonify(amenity.to_dict()), 201
         else:
-            return jsonify(error="Missing name"), 404
+            return jsonify(error="Missing name"), 400
     return jsonify(error='Not a JSON'), 400
 
 

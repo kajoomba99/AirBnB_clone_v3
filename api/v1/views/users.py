@@ -52,7 +52,7 @@ def delete_user(user_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        abort(404)
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
@@ -72,9 +72,9 @@ def save_user():
     body = request.get_json()
     if request.is_json:
         if "email" not in body.keys():
-            return jsonify(error="Missing email"), 404
+            return jsonify(error="Missing email"), 400
         elif "password" not in body.keys():
-            return jsonify(error="Missing password"), 404
+            return jsonify(error="Missing password"), 400
         else:
             user = User(**body)
             user.save()

@@ -50,7 +50,7 @@ def delete_state(state_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        abort(404)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -71,7 +71,7 @@ def save_state():
             state.save()
             return jsonify(state.to_dict()), 201
         else:
-            return jsonify(error="Missing name"), 404
+            return jsonify(error="Missing name"), 400
     return jsonify(error='Not a JSON'), 400
 
 

@@ -73,7 +73,7 @@ def delete_place(place_id=None):
         storage.save()
         return jsonify({}), 200
     else:
-        return abort(400)
+        abort(404)
 
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
@@ -102,13 +102,13 @@ def save_place(city_id=None):
         return jsonify(error='Not a JSON'), 400
 
     if "user_id" not in body.keys():
-        return jsonify(error="Missing user_id"), 404
+        return jsonify(error="Missing user_id"), 400
     user = storage.get(User, body['user_id'])
 
     if user is None:
         abort(404)
     if "name" not in body.keys():
-        return jsonify(error="Missing name"), 404
+        return jsonify(error="Missing name"), 400
     place = Place(city_id=city_id, **body)
     place.save()
     return jsonify(place.to_dict()), 201

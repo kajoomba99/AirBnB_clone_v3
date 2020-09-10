@@ -1,34 +1,39 @@
 #!/usr/bin/python3
-"""main app module"""
-from flask import Flask, jsonify
+"""
+Restful API for Airbnb clone
+"""
+from flask import Flask, Blueprint, jsonify
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
-from flask_cors import CORS
-import os
+from os import getenv
 
-port = os.environ.get('HBNB_API_PORT', 5000)
-host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
 app.register_blueprint(app_views)
-app.url_map.strict_slashes = False
-cors = CORS(app, resources={"*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
-def teardown(void):
+def teardowndb(self):
     """
-        Method excecuted when the connection is closed
-
-        close the connection with the DBStorage
+    method that calls storage.close()
     """
     storage.close()
 
 
 @app.errorhandler(404)
-def notfound(e):
-    return jsonify({"error": "Not found"}), 404
+def not_found(error):
+    """
+    Handle 404 error with JSON response 404
+    """
+    return jsonify({'error': 'Not found'}), 404
 
 
 if __name__ == "__main__":
-    app.run(port=port, host=host, threaded=True)
+    app.run(
+        host=getenv('HBNB_API_HOST', default='0.0.0.0'),
+        port=getenv('HBNB_API_PORT', default='5000'),
+        threaded=True
+    )

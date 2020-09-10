@@ -1,42 +1,39 @@
-#!/usr/bin/python
-"""This module defines the index"""
-
-from api.v1.views import app_views
-from flask import jsonify
-from models.amenity import Amenity
-from models.state import State
-from models.place import Place
-from models.city import City
-from models.review import Review
-from models.user import User
+#!/usr/bin/python3
+"""
+Restful API for Airbnb clone
+"""
+from flask import Flask, Blueprint, jsonify
+from flask_cors import CORS
 from models import storage
-
-CLASSES = {
-    'amenities': Amenity,
-    'states': State,
-    'places': Place,
-    'cities': City,
-    'reviews': Review,
-    'users': User
-}
+from api.v1.views import app_views
+from os import getenv
 
 
-@app_views.route('/status', strict_slashes=False)
-def status():
+app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
+app.register_blueprint(app_views)
+
+
+@app.teardown_appcontext
+def teardowndb(self):
     """
-    Method that returns a Json with an Ok status
+    method that calls storage.close()
     """
+    storage.close()
 
-    return jsonify({'status': 'OK'})
 
-
-@app_views.route('/stats', strict_slashes=False)
-def stats():
+@app.errorhandler(404)
+def not_found(error):
     """
-    Method that retrieves the number of each objects by type
+    Handle 404 error with JSON response 404
     """
+    return jsonify({'error': 'Not found'}), 404
 
-    stats = {}
-    for key, value in CLASSES.items():
-        stats[key] = storage.count(value)
-    return jsonify(stats)
+
+if __name__ == "__main__":
+    app.run(
+        host=getenv('HBNB_API_HOST', default='0.0.0.0'),
+        port=getenv('HBNB_API_PORT', default='5000'),
+        threaded=True
+    )

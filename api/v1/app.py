@@ -10,8 +10,9 @@ port = os.environ.get('HBNB_API_PORT', '5000')
 host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views)
+app.url_map.strict_slashes = False
+cors = CORS(app, resources={"*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
@@ -26,7 +27,7 @@ def teardown(void):
 
 @app.errorhandler(404)
 def notfound(e):
-    return jsonify(error=e.name), 404
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":

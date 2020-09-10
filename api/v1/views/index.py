@@ -1,39 +1,28 @@
 #!/usr/bin/python3
 """
-Restful API for Airbnb clone
+Index file of views packages
 """
-from flask import Flask, Blueprint, jsonify
-from flask_cors import CORS
-from models import storage
 from api.v1.views import app_views
-from os import getenv
+from flask import jsonify
+from models import storage
 
 
-app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
-
-app.register_blueprint(app_views)
-
-
-@app.teardown_appcontext
-def teardowndb(self):
+@app_views.route('/status', strict_slashes=False)
+def status():
     """
-    method that calls storage.close()
+    Return json with Ok status for /status route
     """
-    storage.close()
+    return jsonify({'status': 'OK'})
 
 
-@app.errorhandler(404)
-def not_found(error):
+@app_views.route('/stats', strict_slashes=False)
+def stats():
     """
-    Handle 404 error with JSON response 404
+    Return the number of each object by type
     """
-    return jsonify({'error': 'Not found'}), 404
-
-
-if __name__ == "__main__":
-    app.run(
-        host=getenv('HBNB_API_HOST', default='0.0.0.0'),
-        port=getenv('HBNB_API_PORT', default='5000'),
-        threaded=True
-    )
+    return jsonify({'amenities': storage.count('Amenity'),
+                    'cities': storage.count('City'),
+                    'places': storage.count('Place'),
+                    'reviews': storage.count('Review'),
+                    'states': storage.count('State'),
+                    'users': storage.count('User')})

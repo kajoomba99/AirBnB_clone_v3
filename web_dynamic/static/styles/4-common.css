@@ -1,0 +1,40 @@
+body {
+	margin: 0;
+	padding: 0;
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.push {
+	min-height: calc(100vh - 70px);
+}
+
+.container {
+	max-width: 1000px;
+	margin: 30px auto;
+}
+
+.fs-30 {
+	font-size: 30px;
+}
+
+.flo-lef {
+	float: left;
+}
+
+.flo-rig {
+	float: right;
+}
+
+.ml-30pc {
+	margin-left: 30%;
+}
+
+.mt-23pc {
+	margin-top: 23%;
+}
+
+.fs-16px {
+	font-size: 16px;
+}

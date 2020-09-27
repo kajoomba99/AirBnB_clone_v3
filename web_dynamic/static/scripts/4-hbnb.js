@@ -2,10 +2,10 @@ $(function () {
   $(".popover input[type='checkbox']").click(function () {
     const amenities = checkInputs();
 
-    let names = amenities.reduce((f, s) => {
-      f.push(s.name)
-      return f
-    }, [])
+    const names = amenities.reduce((f, s) => {
+      f.push(s.name);
+      return f;
+    }, []);
     $('.amenities h4').text(names);
     if (names.length === 0) { $('.amenities h4').html('&nbsp;'); }
   });
@@ -42,20 +42,19 @@ $(function () {
 
   $('button').click(() => {
     const amenities = checkInputs();
-    let amenitiesId = amenities.reduce((f, s) => {
-      f.push(s.id)
-      return f
-    }, [])
+    const amenitiesId = amenities.reduce((f, s) => {
+      f.push(s.id);
+      return f;
+    }, []);
     $.ajax({
       url: 'http://127.0.0.1:5001/api/v1/places_search',
       method: 'POST',
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
-      data: JSON.stringify({'amenities': amenitiesId}),
+      data: JSON.stringify({ amenities: amenitiesId }),
       success: function (data) {
         let place;
-        let codeH;
-        $('.place-cards').empty()
+        $('.place-cards').empty();
         for (place of data) {
           $('.place-cards').append(`<article class='dip-inl-blo'>
           <div class='cle-bot'>
@@ -88,8 +87,7 @@ $(function () {
 
   $.get('http://127.0.0.1:5001/api/v1/status/', function (data) {
     if (data.status === 'OK') {
-      $('#api_status').addClass('available')
+      $('#api_status').addClass('available');
     }
-  })
-
+  });
 });

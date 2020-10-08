@@ -47,7 +47,7 @@ $(function () {
       return f;
     }, []);
     $.ajax({
-      url: 'http://127.0.0.1:5001/api/v1/places_search',
+      url: 'http://0.0.0.0:5001/api/v1/places_search',
       method: 'POST',
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
